@@ -1,7 +1,7 @@
-# Lean 4 — Universal Stability (Mathlib v4.28.0)
+# Lean 4 — Stability of On-Shell Flow-Adaptive Networks (Mathlib v4.28.0)
 
 Formalization of
-[Universal Stability Theorem for On-Shell Flow-Adaptive Networks](../Universal%20Stability%20Theorem%20for%20On-Shell%20Flow-Adaptive%20Networks.md).
+[Stability Theorem for On-Shell Flow-Adaptive Networks](../Stability%20Theorem%20for%20On-Shell%20Flow-Adaptive%20Networks.md).
 
 The method (shifted Green inverse, Thomson energy, zero-`sorry` default
 library, incomplete work in a second Lake lib) follows RRT v10. This

@@ -4,7 +4,7 @@ link-citations: true
 reference-section-title: References
 ---
 
-# Universal Stability Theorem for On-Shell Flow-Adaptive Networks
+# Stability Theorem for On-Shell Flow-Adaptive Networks
 
 The Green map is the shifted inverse \(M_w=(L_w+J/|V|)^{-1}\), which on \(\mathbf{1}^\perp\) agrees with \(L_w^+\). There is no matrix Moore–Penrose \(^+\) in Mathlib 4.28 [@penrose1955].
 

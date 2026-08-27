@@ -21,7 +21,7 @@ import UniversalStability.Theorem5
 import UniversalStability.TransferLoewner
 
 /-!
-# Universal Stability — default library
+# On-shell flow-adaptive stability — default library
 
 Sorry-free kernel for the on-shell flow-adaptive network theorems
 through Theorem 5 (local Lyapunov-ellipsoid invariance of the

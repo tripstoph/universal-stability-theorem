@@ -1,8 +1,8 @@
 # universal-stability-theorem
 
 Lean 4 / Mathlib 4.28 formalization of the
-[Universal Stability Theorem for On-Shell Flow-Adaptive Networks](Universal%20Stability%20Theorem%20for%20On-Shell%20Flow-Adaptive%20Networks.md)
-([PDF](Universal%20Stability%20Theorem%20for%20On-Shell%20Flow-Adaptive%20Networks.pdf)).
+[Stability Theorem for On-Shell Flow-Adaptive Networks](Stability%20Theorem%20for%20On-Shell%20Flow-Adaptive%20Networks.md)
+([PDF](Stability%20Theorem%20for%20On-Shell%20Flow-Adaptive%20Networks.pdf)).
 
 **Artifact & Formal Verification.** Definitions through Theorem 5 (`theorem5_local_invariance`) are machine-checked. The default target has **zero `sorry`** and depends only on `propext`, `Classical.choice`, and `Quot.sound`. Non-vacuity is `twoNode_theorem5`. Reproduce with `./scripts/verify.sh`.
 
@@ -25,7 +25,7 @@ One-shot check from the repository root (Mathlib cache, default target, axiom ga
 Regenerate the manuscript PDF (Pandoc + XeLaTeX / MiKTeX):
 
 ```bash
-pandoc "Universal Stability Theorem for On-Shell Flow-Adaptive Networks.md" -o "Universal Stability Theorem for On-Shell Flow-Adaptive Networks.pdf" --pdf-engine=xelatex --standalone --citeproc --bibliography=references.bib --from markdown+tex_math_single_backslash -V geometry:margin=1in -V colorlinks=true -V mainfont="Times New Roman" -V monofont="Consolas"
+pandoc "Stability Theorem for On-Shell Flow-Adaptive Networks.md" -o "Stability Theorem for On-Shell Flow-Adaptive Networks.pdf" --pdf-engine=xelatex --standalone --citeproc --bibliography=references.bib --from markdown+tex_math_single_backslash -V geometry:margin=1in -V colorlinks=true -V mainfont="Times New Roman" -V monofont="Consolas"
 ```
 
 See [`lean/README.md`](lean/README.md) for pins, LAW vs `USIncomplete`, and module layout.
