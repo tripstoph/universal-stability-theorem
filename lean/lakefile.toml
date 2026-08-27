@@ -1,0 +1,15 @@
+name = "UniversalStability"
+defaultTargets = ["UniversalStability"]
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "v4.28.0"
+
+[[lean_lib]]
+name = "UniversalStability"
+globs = ["UniversalStability", "UniversalStability.+"]
+
+[[lean_lib]]
+name = "USIncomplete"
+globs = ["USIncomplete", "USIncomplete.+"]

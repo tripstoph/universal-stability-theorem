@@ -1,0 +1,333 @@
+# Universal Stability for On-Shell Flow-Adaptive Networks
+
+The Green map is the shifted inverse \(M_w=(L_w+J/|V|)^{-1}\), which on \(\mathbf{1}^\perp\) agrees with \(L_w^+\). There is no matrix Moore–Penrose `⁺` in Mathlib 4.28.
+
+**Kernel** (`lake build UniversalStability`, Lean / Mathlib 4.28.0, no `sorry`): Definitions through Theorem 3, Hessian spectral decomposition, leapfrog conjugation `𝒮ᵀ𝒥𝒮=\mathrm{leapfrogLin}(\mathrm{diag}\,\lambda)`, Schur of Jury-stable `2\times 2` blocks, `ρ(𝒥)<1` for the `2|E|` complexification, Stein series `𝒫` with `Aᵀ𝒫A-𝒫=-I` and `𝒫⪰I`, `ContDiffOn ℝ 2 F_c` on `Ω` with quadratic Taylor remainder, and the kinematic bound `\|h\|\le\sqrt{1+(\Delta T)^2}\|z\|`. **Not in the kernel:** Theorem 5 (nonlinear ellipsoid containment for the leapfrog map).
+
+---
+
+## 1. Definitions
+
+Let \(V,E\) be finite nonempty types. Let \(B\in\mathbb{R}^{V\times E}\) satisfy
+\[
+B^T\mathbf{1}=0 \qquad\text{(balanced incidence)}
+\]
+and \(\ker B^T\subseteq\operatorname{span}\{\mathbf{1}\}\) (connectedness). Let \(w\in\mathbb{R}_{>0}^E\) and \(W=\operatorname{diag}(w)\). The weighted Laplacian is \(L_w=BWB^T\). Then \(L_w\Psi=0\) if and only if \(B^T\Psi=0\), hence \(\ker L_w=\operatorname{span}\{\mathbf{1}\}\).
+
+Let \(\eta\in\mathbb{R}^V\) with \(\sum_v\eta_v=0\). Write \(J\) for the all-ones matrix on \(V\) and
+\[
+M_w:=L_w+\frac{1}{|V|}J.
+\]
+For \(w>0\) and connected \(B\), \(M_w\) is positive definite, hence invertible. The on-shell potential is
+\[
+\Psi(w):=M_w^{-1}\eta.
+\]
+It is the unique mean-zero solution of \(L_w\Psi=\eta\). Edge drops are \(\Delta\Psi(w)=B^T\Psi(w)\).
+
+Constitutive potential on \((0,\infty)\):
+\[
+V(w)=3(w-1)^2+3w^{-2},\qquad
+V'(w)=6(w-1)-6w^{-3},\qquad
+V''(w)=6+18w^{-4}.
+\]
+One has \(V''>0\), so \(V'\) is a bijection \((0,\infty)\to\mathbb{R}\). Set
+\[
+h(w):=V''(w)+\frac{2V'(w)}{w}=18-\frac{12}{w}+\frac{6}{w^4}.
+\]
+For all \(w>0\),
+\[
+h(w)\ge 18-9\cdot 2^{-1/3}>10.
+\]
+The bound is attained at \(w=2^{1/3}\).
+
+For \(c\ge 0\),
+\[
+F_c(w)_e=\frac{c}{2}(\Delta\Psi_e(w))^2+V'(w_e),
+\qquad
+\Phi(w)=\sum_{e\in E}V(w_e)-\frac{c}{2}\,\eta^T M_w^{-1}\eta.
+\]
+An on-shell equilibrium is a point \(w^\star\in\mathbb{R}_{>0}^E\) with \(F_c(w^\star)=0\). Write \(\Omega:=\mathbb{R}_{>0}^E\).
+
+The algebraic Hessian at drops \(d=\Delta\Psi(w)\) is the matrix
+\[
+\mathcal{H}_w=-c\,D_d\,(B^T M_w^{-1}B)\,D_d+\operatorname{diag}(V''(w)),
+\]
+where \(D_d=\operatorname{diag}(d)\).
+
+---
+
+## 2. Theorem 1 (Fréchet derivative of \(F_c\))
+
+On \(\Omega\), \(F_c\) is Fréchet differentiable and
+\[
+DF_c(w)[\delta w]=\mathcal{H}_w\,\delta w.
+\]
+
+### Proof
+Differentiating \(M_w\Psi(w)=\eta\) (equivalently \(L_w\Psi=\eta\) on mean-zero vectors) in the direction \(\delta w\) yields
+\[
+D\Psi(w)[\delta w]=-M_w^{-1}B\bigl(d\odot\delta w\bigr),
+\]
+where \(\odot\) is the Hadamard product. Differentiating \(F_c(w)_e=\frac{c}{2}d_e^2+V'(w_e)\) then produces the displayed matrix.
+\(\blacksquare\)
+
+---
+
+## 3. Lemma 1 (transfer Rayleigh bound)
+
+For all \(x\in\mathbb{R}^E\),
+\[
+x^T(B^T M_w^{-1}B)x\le x^T W^{-1}x.
+\]
+Equivalently, writing \(\widetilde B=BW^{1/2}\) and \(\Pi=\widetilde B^T M_w^{-1}\widetilde B\), one has that \(\Pi\) is an orthogonal projector, \(B^T M_w^{-1}B=W^{-1/2}\Pi W^{-1/2}\), and \(0\preceq\Pi\preceq I\).
+
+### Proof
+Completing the square (Thomson) gives the Rayleigh inequality for any right inverse of \(L_w\) on \(\operatorname{im} B\). The identification with \(\Pi\) is the change of variables \(y=W^{-1/2}x\). Orthogonal projectors satisfy \(0\le y^T\Pi y\le\|y\|^2\).
+\(\blacksquare\)
+
+### Corollary 1
+For all \(x\in\mathbb{R}^E\),
+\[
+x^T\mathcal{H}_w x\ge\sum_e\Bigl(V''(w_e)-\frac{c\,d_e^2}{w_e}\Bigr)x_e^2.
+\]
+(The interaction term is negative semidefinite because \(c\ge 0\) and \(B^T M_w^{-1}B\) is positive semidefinite.)
+
+---
+
+## 4. Theorem 2 (equilibrium Hessian floor)
+
+Let \(w^\star\in\Omega\) satisfy \(F_c(w^\star)=0\). Then for all \(x\in\mathbb{R}^E\),
+\[
+x^T\mathcal{H}_{w^\star}x\ge\bigl(18-9\cdot 2^{-1/3}\bigr)\|x\|^2.
+\]
+
+### Proof
+Force balance on edge \(e\) is \(c\,d_e^2=-2V'(w_e^\star)\). Substituting into Corollary 1 produces
+\[
+x^T\mathcal{H}_{w^\star}x\ge\sum_e h(w_e^\star)\,x_e^2.
+\]
+The scalar bound \(h\ge 18-9\cdot 2^{-1/3}\) finishes the estimate.
+\(\blacksquare\)
+
+This is a quadratic-form lower bound. It is not, in the kernel, a second-derivative test: \(\operatorname{IsLocalMin}\Phi\) at \(w^\star\) is not discharged.
+
+---
+
+## 5. Lemma 2 (gradient structure)
+
+On \(\Omega\),
+\[
+D\Phi(w)[\delta w]=\langle F_c(w),\delta w\rangle.
+\]
+Thus \(F_c=\nabla\Phi\) and \(DF_c=D^2\Phi\) as Fréchet derivatives.
+
+### Proof
+The map \(w\mapsto\eta^T M_w^{-1}\eta\) has directional derivative \(-\sum_e\delta w_e\,d_e^2\). Differentiating \(\sum V(w_e)\) contributes \(V'(w_e)\).
+\(\blacksquare\)
+
+A local minimizer of \(\Phi\) on \(\Omega\) is therefore an on-shell equilibrium.
+
+---
+
+## 6. Theorem 2A (coercivity and existence)
+
+Let \(y:=B^T M_1^{-1}\eta\) be the unit-weight Kirchhoff current, and write \(C:=\sum_e y_e^2\ge 0\), \(w_{\min}:=\min_e w_e\), \(w_{\max}:=\max_e w_e\). Then
+\[
+\Phi(w)\ge\sum_e V(w_e)-\frac{c}{2}\sum_e\frac{y_e^2}{w_e}\ge 3w_{\min}^{-2}-\frac{cC}{2\,w_{\min}},
+\]
+and likewise \(\Phi(w)\ge 3(w_{\max}-1)^2-\frac{cC}{2\,w_{\min}}\). Hence \(\Phi(w)\to+\infty\) as \(w_{\min}\to 0^+\) or \(w_{\max}\to+\infty\).
+
+Every sublevel \(\{w\in\Omega:\Phi(w)\le K\}\) is compact in \(\Omega\). Therefore \(\Phi\) attains a global minimizer \(w^\star\in\Omega\), and \(F_c(w^\star)=0\).
+
+### Proof
+Thomson’s principle supplies \(\eta^T M_w^{-1}\eta\le\sum_e y_e^2/w_e\le C/w_{\min}\). The two lower bounds on \(V\) are \(V(w)\ge 3w^{-2}\) and \(V(w)\ge 3(w-1)^2\). Thresholds \(\varepsilon\in(0,1]\) and \(R\ge 1\) may be chosen so that \(\Phi>K\) off the box \([\varepsilon,R]^E\). That box is compact and lies in \(\Omega\); \(\Phi\) is continuous there, so a minimizer exists. It is a local minimizer in the open set \(\Omega\), hence a zero of \(F_c\).
+\(\blacksquare\)
+
+---
+
+## 7. Theorem 2B (uniqueness)
+
+There is a unique on-shell equilibrium. Equivalently, \(\Phi\) has a unique critical point on \(\Omega\), and it is the global minimizer of Theorem 2A.
+
+### Proof
+For each drop \(t\in\mathbb{R}\) there is a unique \(w(t)>0\) with \(V'(w(t))=-(c/2)t^2\). The current \(\sigma(t):=w(t)\,t\) satisfies
+\[
+\sigma'(t)=w(t)-\frac{ct^2}{V''(w(t))}=\frac{w(t)\,h(w(t))}{V''(w(t))}>0,
+\]
+so \(\sigma\) is strictly increasing.
+
+At equilibrium, \(w_e=w(\Delta\Psi_e)\) and \(I_e=\sigma(\Delta\Psi_e)\) obeys \(BI=\eta\). If \(w,w'\) are two equilibria with drops \(\delta,\delta'\), then \(B(I-I')=0\), hence
+\[
+\sum_e\bigl(\sigma(\delta_e)-\sigma(\delta'_e)\bigr)(\delta_e-\delta'_e)=\langle I-I',B^T(\Psi-\Psi')\rangle=\langle B(I-I'),\Psi-\Psi'\rangle=0.
+\]
+Each summand is nonnegative, so each is zero, so \(\delta=\delta'\), so \(w=w'\).
+
+A critical point of \(\Phi\) is a zero of \(F_c\) by Lemma 2. Thus there is at most one critical point. Combined with Theorem 2A it is the global minimizer.
+\(\blacksquare\)
+
+---
+
+## 8. Discrete linearization
+
+The damped leapfrog map is
+\[
+w_{t+1}=w_t+\Delta T\,v_t,\qquad
+v_{t+1}=(1-\gamma\Delta T)v_t-\Delta T\,F_c(w_{t+1}).
+\]
+Its linearization at \((w^\star,0)\) is the block matrix on \(\mathbb{R}^E\oplus\mathbb{R}^E\)
+\[
+\mathcal{J}=\begin{pmatrix}I&\Delta T\,I\\-\Delta T\,\mathcal{H}_{w^\star}&(1-\gamma\Delta T)I-(\Delta T)^2\mathcal{H}_{w^\star}\end{pmatrix}.
+\]
+This is the linearization of \(\mathcal{T}\) at \((w^\star,0)\). Global invariance of \(\Omega\) under \(\mathcal{T}\) is not claimed; local invariance is Theorem 5.
+
+On \(\{w_e\ge 1/3\}\) one has, for all \(x\),
+\[
+\bigl(18-9\cdot 2^{-1/3}\bigr)\|x\|^2\le x^T\mathcal{H}_w x\le 1464\,\|x\|^2.
+\]
+The upper bound uses Corollary 1’s sign on the interaction together with \(V''(w)\le V''(1/3)=1464\). The constraint \(w_e\ge 1/3\) is an additional hypothesis on the equilibrium (smallness of \(\eta\)); it is not implied by \(F_c(w^\star)=0\).
+
+If \(\mathcal{H}v=\lambda v\), the restriction of \(\mathcal{J}\) to \(\operatorname{span}\{(v,0),(0,v)\}\) is
+\[
+J_\lambda=\begin{pmatrix}1&\Delta T\\-\Delta T\,\lambda&1-\gamma\Delta T-\lambda(\Delta T)^2\end{pmatrix}.
+\]
+The characteristic polynomial is \(\mu^2-\tau\mu+\delta=0\) with \(\tau=2-\gamma\Delta T-\lambda(\Delta T)^2\) and \(\delta=1-\gamma\Delta T\). The Jury inequalities \(|\delta|<1\), \(1-\tau+\delta>0\), \(1+\tau+\delta>0\) are equivalent to
+\[
+|1-\gamma\Delta T|<1,\qquad \lambda(\Delta T)^2>0,\qquad 4-2\gamma\Delta T-\lambda(\Delta T)^2>0.
+\]
+
+### Theorem 3 (modal Jury)
+
+Let \(\gamma=3\) and \(0<\lambda\le 1464\). If
+\[
+0<\Delta T<\Delta T_\star:=\frac{-3+\sqrt{5865}}{1464},
+\]
+then the three Jury inequalities hold for \(J_\lambda\). Consequently \(\rho(J_\lambda)<1\): every real characteristic root satisfies \(|\mu|<1\); if the discriminant is negative, the complex roots satisfy \(|\mu|^2=1-3\Delta T<1\).
+
+If a matrix \(P\in\mathbb{R}^{2\times 2}\) solves \(J^T PJ-P=-I_2\), then
+\[
+\mathcal{V}(Jx)=\mathcal{V}(x)-\|x\|^2
+\]
+for \(\mathcal{V}(x)=x^T Px\), and \(\mathcal{V}(Jx)<\mathcal{V}(x)\) for \(x\neq 0\). If in addition \(\mathcal{V}(y)\le\lambda_{\max}\|y\|^2\) with \(\lambda_{\max}>0\), then \(\mathcal{V}(Jx)\le(1-\lambda_{\max}^{-1})\mathcal{V}(x)\).
+
+### Proof
+\(|1-3\Delta T|<1\) holds for \(\Delta T<2/3\), which is weaker than \(\Delta T_\star\). The middle Jury inequality is \(\lambda(\Delta T)^2>0\). The third is most restrictive at \(\lambda=1464\) and rearranges to the positive root of \(1464\,t^2+6t-4=0\).
+
+A real root of \(\mu^2-\tau\mu+\delta=0\) with Jury’s inequalities cannot satisfy \(|\mu|\ge 1\). Underdamped roots are conjugates with product \(\delta\), hence \(|\mu|^2=\delta=1-3\Delta T\). A double real root is the discriminant-zero case of the real-root statement. Thus every eigenvalue of \(J_\lambda\) in \(\mathbb{C}\) has modulus strictly less than one.
+\(\blacksquare\)
+
+---
+
+## 9. Theorem 4 (spectral radius of \(\mathcal{J}\); Stein equation)
+
+Let \(\gamma=3\), \(0<\Delta T<\Delta T_\star\), and \(w^\star\in\Omega\) with \(F_c(w^\star)=0\) and \(w_e^\star\ge 1/3\) for all \(e\). Write \(n:=|E|\) and \(\mathcal{H}:=\mathcal{H}_{w^\star}\). Then
+\[
+\rho(\mathcal{J})<1,
+\]
+and there exists a unique symmetric \(\mathcal{P}\succ 0\) on \(\mathbb{R}^{2n}\) solving
+\[
+\mathcal{J}^T\mathcal{P}\mathcal{J}-\mathcal{P}=-I_{2n}.
+\]
+Moreover \(\mathcal{P}=\sum_{k\ge 0}(\mathcal{J}^T)^k\mathcal{J}^k\succeq I_{2n}\).
+
+### Proof
+The matrix \(\mathcal{H}\) is real symmetric. Theorem 2 and the bound on \(\{w_e\ge 1/3\}\) give, for all \(x\in\mathbb{R}^n\),
+\[
+\bigl(18-9\cdot 2^{-1/3}\bigr)\|x\|^2\le x^T\mathcal{H}x\le 1464\|x\|^2.
+\]
+Hence \(\operatorname{spec}(\mathcal{H})\subseteq\bigl[18-9\cdot 2^{-1/3},1464\bigr]\subset(0,1464]\). Let \(Q\in\mathrm{O}(n)\) satisfy \(Q^T\mathcal{H}Q=\Lambda=\operatorname{diag}(\lambda_1,\dots,\lambda_n)\). Set
+\[
+\mathcal{S}:=\begin{pmatrix}Q&0\\0&Q\end{pmatrix}\in\mathrm{O}(2n).
+\]
+Then
+\[
+\mathcal{S}^T\mathcal{J}\mathcal{S}=\begin{pmatrix}I&\Delta T\,I\\-\Delta T\,\Lambda&(1-\gamma\Delta T)I-(\Delta T)^2\Lambda\end{pmatrix}.
+\]
+Let \(\pi\) be the permutation of coordinates \((x,y)\mapsto(x_1,y_1,\dots,x_n,y_n)\), and \(\mathcal{U}:=\mathcal{S}P_\pi\in\mathrm{O}(2n)\). Then
+\[
+\mathcal{U}^T\mathcal{J}\mathcal{U}=\bigoplus_{i=1}^n J_{\lambda_i}.
+\]
+Similarity preserves the spectrum, and the spectrum of a direct sum is the union of the spectra, so
+\[
+\operatorname{spec}(\mathcal{J})=\bigcup_{i=1}^n\operatorname{spec}(J_{\lambda_i}).
+\]
+Theorem 3 yields \(\rho(J_{\lambda_i})<1\) for each \(i\), hence \(\rho(\mathcal{J})=\max_i\rho(J_{\lambda_i})<1\).
+
+Stein’s theorem: if \(\rho(A)<1\) and \(Q\succ 0\), the series \(P=\sum_{k\ge 0}(A^T)^k Q A^k\) converges in any matrix norm, is the unique symmetric solution of \(A^TPA-P=-Q\), and satisfies \(P\succ 0\). For \(A=\mathcal{J}\) and \(Q=I_{2n}\) one obtains \(\mathcal{P}\) as displayed, and the \(k=0\) term gives \(\mathcal{P}\succeq I_{2n}\).
+
+The same \(\mathcal{P}\) admits the modal construction: for each \(i\), \(P_i=\sum_{k\ge 0}(J_{\lambda_i}^T)^k J_{\lambda_i}^k\) solves the \(2\times 2\) Stein equation, and
+\[
+\mathcal{P}=\mathcal{U}\Bigl(\bigoplus_{i=1}^n P_i\Bigr)\mathcal{U}^T.
+\]
+\(\blacksquare\)
+
+---
+
+## 10. Theorem 5 (local invariance and exponential stability)
+
+Let \(\gamma=3\), \(0<\Delta T<\Delta T_\star\), and let \(w^\star\) be as in Theorem 4. Write \(z_t=\bigl(w_t-w^\star,\,v_t\bigr)\in\mathbb{R}^{2n}\) and let \(\mathcal{T}\) be the leapfrog map of §8, defined whenever \(w_t+\Delta T v_t\in\Omega\). Let \(\mathcal{P}\) be the Stein matrix of Theorem 4, \(\lambda_m:=\lambda_{\min}(\mathcal{P})\ge 1\), \(\lambda_M:=\lambda_{\max}(\mathcal{P})\), \(\kappa:=\|\mathcal{J}\|_2\), and \(\mathcal{V}(z):=z^T\mathcal{P}z\).
+
+There exists \(r_0>0\) such that the ellipsoid \(\mathcal{E}:=\{z:\mathcal{V}(z)\le r_0^2\}\) satisfies:
+1. \(\mathcal{E}\subset\Omega\times\mathbb{R}^n\);
+2. if \(z_0\in\mathcal{E}\), then \(w_0+\Delta T v_0\in\Omega\), \(z_{t+1}=\mathcal{T}(w_t,v_t)- (w^\star,0)\) is defined for all \(t\in\mathbb{N}\), and \(z_t\in\mathcal{E}\);
+3. \(\|z_t\|\le\sqrt{\lambda_M/\lambda_m}\bigl(1-\tfrac12\lambda_M^{-1}\bigr)^{t/2}\|z_0\|\).
+
+### Proof
+Let \(w_{\min}^\star:=\min_e w_e^\star>0\) and fix \(\rho\in(0,w_{\min}^\star)\). The closed Euclidean ball \(\overline B_\rho(w^\star)\) lies in \(\Omega\). On \(\Omega\), \(F_c\) is \(C^\infty\) (inverse of the positive-definite matrix \(M_w\), polynomial in the drops). Hence
+\[
+M_2:=\sup_{w\in\overline B_\rho(w^\star)}\|D^2 F_c(w)\|_{\mathrm{op}}<\infty.
+\]
+Taylor with remainder about \(w^\star\), using \(F_c(w^\star)=0\) and \(DF_c(w^\star)=\mathcal{H}\), gives
+\[
+F_c(w^\star+h)=\mathcal{H}h+\mathcal{R}_F(h),\qquad \|\mathcal{R}_F(h)\|\le\tfrac12 M_2\|h\|^2
+\]
+whenever \(\|h\|\le\rho\). If \(w_{t+1}=w_t+\Delta T v_t\), then \(w_{t+1}-w^\star=\delta w_t+\Delta T v_t\) and
+\[
+z_{t+1}=\mathcal{J}z_t+\mathcal{R}(z_t),\qquad \mathcal{R}(z)=\begin{pmatrix}0\\-\Delta T\,\mathcal{R}_F(\delta w+\Delta T v)\end{pmatrix},
+\]
+provided \(\|\delta w+\Delta T v\|\le\rho\). The first block row of \(\mathcal{J}\) is \((I,\Delta T I)\), with operator norm \(\sqrt{1+(\Delta T)^2}\), so
+\[
+\|\delta w+\Delta T v\|\le\sqrt{1+(\Delta T)^2}\,\|z\|.
+\]
+Thus, writing \(C_R:=\tfrac12\Delta T M_2\bigl(1+(\Delta T)^2\bigr)\), one has \(\|\mathcal{R}(z)\|\le C_R\|z\|^2\) whenever \(\sqrt{1+(\Delta T)^2}\,\|z\|\le\rho\).
+
+Expanding the Stein identity \(\mathcal{J}^T\mathcal{P}\mathcal{J}-\mathcal{P}=-I\),
+\[
+\mathcal{V}(\mathcal{J}z+\mathcal{R})=\mathcal{V}(z)-\|z\|^2+2z^T\mathcal{J}^T\mathcal{P}\mathcal{R}+\mathcal{R}^T\mathcal{P}\mathcal{R}.
+\]
+Hence
+\[
+\bigl|2z^T\mathcal{J}^T\mathcal{P}\mathcal{R}\bigr|\le 2\kappa\lambda_M\|z\|\,\|\mathcal{R}\|,\qquad
+\mathcal{R}^T\mathcal{P}\mathcal{R}\le\lambda_M\|\mathcal{R}\|^2,
+\]
+and, on the remainder regime,
+\[
+\mathcal{V}(z_{t+1})-\mathcal{V}(z_t)\le -\|z_t\|^2\Bigl(1-2\kappa\lambda_M C_R\|z_t\|-\lambda_M C_R^2\|z_t\|^2\Bigr).
+\]
+The parenthesis tends to \(1\) as \(\|z\|\to 0\), so there exists \(\delta_\star>0\) such that \(\|z\|\le\delta_\star\) implies the parenthesis is at least \(1/2\). Set
+\[
+\delta_\Omega:=\frac{\min\{\rho,w_{\min}^\star\}}{\sqrt{1+(\Delta T)^2}},\qquad
+r_0:=\sqrt{\lambda_m}\min\{\delta_\Omega,\delta_\star\}.
+\]
+If \(\mathcal{V}(z)\le r_0^2\), then \(\|z\|\le r_0/\sqrt{\lambda_m}\le\min\{\delta_\Omega,\delta_\star\}\). In particular \(\|\delta w\|\le\|z\|<w_{\min}^\star\), so \(w^\star+\delta w\in\Omega\) and \(\mathcal{E}\subset\Omega\times\mathbb{R}^n\); and \(\|w_{t+1}-w^\star\|\le\rho<w_{\min}^\star\), so \(w_{t+1}\in\overline B_\rho(w^\star)\subset\Omega\) and the remainder expansion applies. Therefore
+\[
+\mathcal{V}(z_{t+1})\le\bigl(1-\tfrac12\lambda_M^{-1}\bigr)\mathcal{V}(z_t).
+\]
+(Here \(\lambda_M\ge\lambda_m\ge 1\), so the factor lies in \((0,1)\).) Forward invariance of \(\mathcal{E}\) follows, and iterating yields \(\mathcal{V}(z_t)\le\bigl(1-\tfrac12\lambda_M^{-1}\bigr)^t\mathcal{V}(z_0)\). The Euclidean bound is the comparison \(\lambda_m\|z\|^2\le\mathcal{V}(z)\le\lambda_M\|z\|^2\).
+\(\blacksquare\)
+
+---
+
+## 11. Lean 4
+
+The formalization is [`lean/`](lean/). It does not import RRT.
+
+```bash
+lake exe cache get
+lake build UniversalStability
+```
+
+The default library contains no `sorry`. It discharges Definitions–Theorem 3, Hessian symmetry/spectrum, leapfrog conjugation, modal Schur over \(\mathbb{C}\), \(\rho(\mathcal{J})<1\), existence of the Stein series \(\mathcal{P}\) with \(A^T\mathcal{P}A-\mathcal{P}=-I\) and \(\mathcal{P}\succeq I\), \(\mathrm{ContDiffOn}\,\mathbb{R}\,2\,F_c\) on \(\Omega\) with a quadratic Taylor remainder, and the kinematic next-step bound. Theorem 5 in full (nonlinear ellipsoid containment) remains classical.
+
+Incomplete leftovers (finite-dimensional mountain pass; Hessian \(\Rightarrow\) `IsLocalMin`) live in `USIncomplete` and are not cited as discharging any statement above.
+
+See [`lean/README.md`](lean/README.md) for pins and module layout.

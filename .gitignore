@@ -1,0 +1,10 @@
+# Lake fetch and build (Mathlib lives here; do not commit)
+**/.lake/
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.cursor/
+agent-transcripts/
