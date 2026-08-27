@@ -25,7 +25,7 @@ One-shot check from the repository root (Mathlib cache, default target, axiom ga
 Regenerate the manuscript PDF (Pandoc + XeLaTeX / MiKTeX):
 
 ```bash
-pandoc "Universal Stability Theorem for On-Shell Flow-Adaptive Networks.md" -o "Universal Stability Theorem for On-Shell Flow-Adaptive Networks.pdf" --pdf-engine=xelatex --standalone --from markdown+tex_math_single_backslash -V geometry:margin=1in -V colorlinks=true -V mainfont="Times New Roman" -V monofont="Consolas"
+pandoc "Universal Stability Theorem for On-Shell Flow-Adaptive Networks.md" -o "Universal Stability Theorem for On-Shell Flow-Adaptive Networks.pdf" --pdf-engine=xelatex --standalone --citeproc --bibliography=references.bib --from markdown+tex_math_single_backslash -V geometry:margin=1in -V colorlinks=true -V mainfont="Times New Roman" -V monofont="Consolas"
 ```
 
 See [`lean/README.md`](lean/README.md) for pins, LAW vs `USIncomplete`, and module layout.

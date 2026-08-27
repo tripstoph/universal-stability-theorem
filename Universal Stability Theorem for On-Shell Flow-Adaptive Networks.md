@@ -1,6 +1,12 @@
+---
+bibliography: references.bib
+link-citations: true
+reference-section-title: References
+---
+
 # Universal Stability Theorem for On-Shell Flow-Adaptive Networks
 
-The Green map is the shifted inverse \(M_w=(L_w+J/|V|)^{-1}\), which on \(\mathbf{1}^\perp\) agrees with \(L_w^+\). There is no matrix Moore–Penrose \(^+\) in Mathlib 4.28.
+The Green map is the shifted inverse \(M_w=(L_w+J/|V|)^{-1}\), which on \(\mathbf{1}^\perp\) agrees with \(L_w^+\). There is no matrix Moore–Penrose \(^+\) in Mathlib 4.28 [@penrose1955].
 
 **Kernel** (`lake build UniversalStability`, Lean / Mathlib 4.28.0, **no `sorry`**): Definitions through Theorem 5, including Hessian spectral decomposition, modal Jury stability, Stein series \(\mathcal{P}\succeq I\), \(C^2\) Taylor bound on \(F_c\), quadratic margin estimation, and the full discrete nonlinear leapfrog contraction with a forward-invariant ellipsoidal basin of attraction (`theorem5_local_invariance`).
 
@@ -16,7 +22,7 @@ Let \(V,E\) be finite nonempty types. Let \(B\in\mathbb{R}^{V\times E}\) satisfy
 \[
 B^T\mathbf{1}=0 \qquad\text{(balanced incidence)}
 \]
-and \(\ker B^T\subseteq\operatorname{span}\{\mathbf{1}\}\) (connectedness). Let \(w\in\mathbb{R}_{>0}^E\) and \(W=\operatorname{diag}(w)\). The weighted Laplacian is \(L_w=BWB^T\). Then \(L_w\Psi=0\) if and only if \(B^T\Psi=0\), hence \(\ker L_w=\operatorname{span}\{\mathbf{1}\}\).
+and \(\ker B^T\subseteq\operatorname{span}\{\mathbf{1}\}\) (connectedness). Let \(w\in\mathbb{R}_{>0}^E\) and \(W=\operatorname{diag}(w)\). The weighted Laplacian is \(L_w=BWB^T\) [@kirchhoff1847; @chung1997]. Then \(L_w\Psi=0\) if and only if \(B^T\Psi=0\), hence \(\ker L_w=\operatorname{span}\{\mathbf{1}\}\).
 
 Let \(\eta\in\mathbb{R}^V\) with \(\sum_v\eta_v=0\). Write \(J\) for the all-ones matrix on \(V\) and
 \[
@@ -62,7 +68,7 @@ where \(D_d=\operatorname{diag}(d)\).
 
 ## 2. Theorem 1 (Fréchet derivative of \(F_c\))
 
-On \(\Omega\), \(F_c\) is Fréchet differentiable and
+On \(\Omega\), \(F_c\) is Fréchet differentiable [@dieudonne1960] and
 \[
 DF_c(w)[\delta w]=\mathcal{H}_w\,\delta w.
 \]
@@ -86,7 +92,7 @@ x^T(B^T M_w^{-1}B)x\le x^T W^{-1}x.
 Equivalently, writing \(\widetilde B=BW^{1/2}\) and \(\Pi=\widetilde B^T M_w^{-1}\widetilde B\), one has that \(\Pi\) is an orthogonal projector, \(B^T M_w^{-1}B=W^{-1/2}\Pi W^{-1/2}\), and \(0\preceq\Pi\preceq I\).
 
 ### Proof
-Completing the square (Thomson) gives the Rayleigh inequality for any right inverse of \(L_w\) on \(\operatorname{im} B\). The identification with \(\Pi\) is the change of variables \(y=W^{-1/2}x\). Orthogonal projectors satisfy \(0\le y^T\Pi y\le\|y\|^2\).
+Completing the square (Thomson’s principle [@doyle1984]) gives the Rayleigh inequality for any right inverse of \(L_w\) on \(\operatorname{im} B\). The identification with \(\Pi\) is the change of variables \(y=W^{-1/2}x\). Orthogonal projectors satisfy \(0\le y^T\Pi y\le\|y\|^2\).
 \(\blacksquare\)
 
 ### Corollary 1
@@ -135,7 +141,7 @@ A local minimizer of \(\Phi\) on \(\Omega\) is therefore an on-shell equilibrium
 
 ## 6. Theorem 2A (coercivity and existence)
 
-Let \(y:=B^T M_1^{-1}\eta\) be the unit-weight Kirchhoff current, and write \(C:=\sum_e y_e^2\ge 0\), \(w_{\min}:=\min_e w_e\), \(w_{\max}:=\max_e w_e\). Then
+Let \(y:=B^T M_1^{-1}\eta\) be the unit-weight Kirchhoff current [@kirchhoff1847], and write \(C:=\sum_e y_e^2\ge 0\), \(w_{\min}:=\min_e w_e\), \(w_{\max}:=\max_e w_e\). Then
 \[
 \Phi(w)\ge\sum_e V(w_e)-\frac{c}{2}\sum_e\frac{y_e^2}{w_e}\ge 3w_{\min}^{-2}-\frac{cC}{2\,w_{\min}},
 \]
@@ -144,7 +150,7 @@ and likewise \(\Phi(w)\ge 3(w_{\max}-1)^2-\frac{cC}{2\,w_{\min}}\). Hence \(\Phi
 Every sublevel \(\{w\in\Omega:\Phi(w)\le K\}\) is compact in \(\Omega\). Therefore \(\Phi\) attains a global minimizer \(w^\star\in\Omega\), and \(F_c(w^\star)=0\).
 
 ### Proof
-Thomson’s principle supplies \(\eta^T M_w^{-1}\eta\le\sum_e y_e^2/w_e\le C/w_{\min}\). The two lower bounds on \(V\) are \(V(w)\ge 3w^{-2}\) and \(V(w)\ge 3(w-1)^2\). Thresholds \(\varepsilon\in(0,1]\) and \(R\ge 1\) may be chosen so that \(\Phi>K\) off the box \([\varepsilon,R]^E\). That box is compact and lies in \(\Omega\); \(\Phi\) is continuous there, so a minimizer exists. It is a local minimizer in the open set \(\Omega\), hence a zero of \(F_c\).
+Thomson’s principle [@doyle1984] supplies \(\eta^T M_w^{-1}\eta\le\sum_e y_e^2/w_e\le C/w_{\min}\). The two lower bounds on \(V\) are \(V(w)\ge 3w^{-2}\) and \(V(w)\ge 3(w-1)^2\). Thresholds \(\varepsilon\in(0,1]\) and \(R\ge 1\) may be chosen so that \(\Phi>K\) off the box \([\varepsilon,R]^E\). That box is compact and lies in \(\Omega\); \(\Phi\) is continuous there, so a minimizer exists. It is a local minimizer in the open set \(\Omega\), hence a zero of \(F_c\).
 \(\blacksquare\)
 
 ---
@@ -173,7 +179,7 @@ A critical point of \(\Phi\) is a zero of \(F_c\) by Lemma 2. Thus there is at m
 
 ## 8. Discrete linearization
 
-The damped leapfrog map is
+The damped leapfrog map [@verlet1967; @hairer2006] is
 \[
 w_{t+1}=w_t+\Delta T\,v_t,\qquad
 v_{t+1}=(1-\gamma\Delta T)v_t-\Delta T\,F_c(w_{t+1}).
@@ -194,7 +200,7 @@ If \(\mathcal{H}v=\lambda v\), the restriction of \(\mathcal{J}\) to \(\operator
 \[
 J_\lambda=\begin{pmatrix}1&\Delta T\\-\Delta T\,\lambda&1-\gamma\Delta T-\lambda(\Delta T)^2\end{pmatrix}.
 \]
-The characteristic polynomial is \(\mu^2-\tau\mu+\delta=0\) with \(\tau=2-\gamma\Delta T-\lambda(\Delta T)^2\) and \(\delta=1-\gamma\Delta T\). The Jury inequalities \(|\delta|<1\), \(1-\tau+\delta>0\), \(1+\tau+\delta>0\) are equivalent to
+The characteristic polynomial is \(\mu^2-\tau\mu+\delta=0\) with \(\tau=2-\gamma\Delta T-\lambda(\Delta T)^2\) and \(\delta=1-\gamma\Delta T\). The Jury inequalities \(|\delta|<1\), \(1-\tau+\delta>0\), \(1+\tau+\delta>0\) [@jury1962] are equivalent to
 \[
 |1-\gamma\Delta T|<1,\qquad \lambda(\Delta T)^2>0,\qquad 4-2\gamma\Delta T-\lambda(\Delta T)^2>0.
 \]
@@ -211,7 +217,7 @@ If a matrix \(P\in\mathbb{R}^{2\times 2}\) solves \(J^T PJ-P=-I_2\), then
 \[
 \mathcal{V}(Jx)=\mathcal{V}(x)-\|x\|^2
 \]
-for \(\mathcal{V}(x)=x^T Px\), and \(\mathcal{V}(Jx)<\mathcal{V}(x)\) for \(x\neq 0\). If in addition \(\mathcal{V}(y)\le\lambda_{\max}\|y\|^2\) with \(\lambda_{\max}>0\), then \(\mathcal{V}(Jx)\le(1-\lambda_{\max}^{-1})\mathcal{V}(x)\).
+for \(\mathcal{V}(x)=x^T Px\), and \(\mathcal{V}(Jx)<\mathcal{V}(x)\) for \(x\neq 0\) [@lyapunov1992; @stein1952]. If in addition \(\mathcal{V}(y)\le\lambda_{\max}\|y\|^2\) with \(\lambda_{\max}>0\), then \(\mathcal{V}(Jx)\le(1-\lambda_{\max}^{-1})\mathcal{V}(x)\).
 
 ### Proof
 \(|1-3\Delta T|<1\) holds for \(\Delta T<2/3\), which is weaker than \(\Delta T_\star\). The middle Jury inequality is \(\lambda(\Delta T)^2>0\). The third is most restrictive at \(\lambda=1464\) and rearranges to the positive root of \(1464\,t^2+6t-4=0\).
@@ -238,7 +244,7 @@ The matrix \(\mathcal{H}\) is real symmetric. Theorem 2 and the bound on \(\{w_e
 \[
 \bigl(18-9\cdot 2^{-1/3}\bigr)\|x\|^2\le x^T\mathcal{H}x\le 1464\|x\|^2.
 \]
-Hence \(\operatorname{spec}(\mathcal{H})\subseteq\bigl[18-9\cdot 2^{-1/3},1464\bigr]\subset(0,1464]\). Let \(Q\in\mathrm{O}(n)\) satisfy \(Q^T\mathcal{H}Q=\Lambda=\operatorname{diag}(\lambda_1,\dots,\lambda_n)\). Set
+Hence \(\operatorname{spec}(\mathcal{H})\subseteq\bigl[18-9\cdot 2^{-1/3},1464\bigr]\subset(0,1464]\). Let \(Q\in\mathrm{O}(n)\) satisfy \(Q^T\mathcal{H}Q=\Lambda=\operatorname{diag}(\lambda_1,\dots,\lambda_n)\) [@horn2013]. Set
 \[
 \mathcal{S}:=\begin{pmatrix}Q&0\\0&Q\end{pmatrix}\in\mathrm{O}(2n).
 \]
@@ -256,7 +262,7 @@ Similarity preserves the spectrum, and the spectrum of a direct sum is the union
 \]
 Theorem 3 yields \(\rho(J_{\lambda_i})<1\) for each \(i\), hence \(\rho(\mathcal{J})=\max_i\rho(J_{\lambda_i})<1\).
 
-Stein’s theorem: if \(\rho(A)<1\) and \(Q\succ 0\), the series \(P=\sum_{k\ge 0}(A^T)^k Q A^k\) converges in any matrix norm, is the unique symmetric solution of \(A^TPA-P=-Q\), and satisfies \(P\succ 0\). For \(A=\mathcal{J}\) and \(Q=I_{2n}\) one obtains \(\mathcal{P}\) as displayed, and the \(k=0\) term gives \(\mathcal{P}\succeq I_{2n}\).
+Stein’s theorem [@stein1952]: if \(\rho(A)<1\) and \(Q\succ 0\), the series \(P=\sum_{k\ge 0}(A^T)^k Q A^k\) converges in any matrix norm (Gelfand’s formula supplies the geometric bound on \(\|A^k\|\); [@rudin1991]), is the unique symmetric solution of \(A^TPA-P=-Q\), and satisfies \(P\succ 0\). For \(A=\mathcal{J}\) and \(Q=I_{2n}\) one obtains \(\mathcal{P}\) as displayed, and the \(k=0\) term gives \(\mathcal{P}\succeq I_{2n}\).
 
 The same \(\mathcal{P}\) admits the modal construction: for each \(i\), \(P_i=\sum_{k\ge 0}(J_{\lambda_i}^T)^k J_{\lambda_i}^k\) solves the \(2\times 2\) Stein equation, and
 \[
@@ -280,7 +286,7 @@ Let \(w_{\min}^\star:=\min_e w_e^\star>0\) and fix \(\rho\in(0,w_{\min}^\star)\)
 \[
 M_2:=\sup_{w\in\overline B_\rho(w^\star)}\|D^2 F_c(w)\|_{\mathrm{op}}<\infty.
 \]
-Taylor with remainder about \(w^\star\), using \(F_c(w^\star)=0\) and \(DF_c(w^\star)=\mathcal{H}\), gives
+Taylor with remainder about \(w^\star\) [@cartan1971], using \(F_c(w^\star)=0\) and \(DF_c(w^\star)=\mathcal{H}\), gives
 \[
 F_c(w^\star+h)=\mathcal{H}h+\mathcal{R}_F(h),\qquad \|\mathcal{R}_F(h)\|_\infty\le\tfrac12 M_2\|h\|_\infty^2
 \]
@@ -322,13 +328,13 @@ If \(\mathcal{V}(z)\le r_0^2\), then \(\|z\|_2\le\sqrt{\mathcal{V}(z)}\le r_0\le
 \]
 \(\blacksquare\)
 
-[^stein-floor]: In the formalized Lean kernel, the lower eigenvalue bound \(\lambda_{\min}(\mathcal{P})\ge 1\) from the Stein base term \(\mathcal{P}\succeq I\) is used directly, so \(\|z\|^2\le\mathcal{V}(z)\) and the comparison factor \(\sqrt{\lambda_M/\lambda_{\min}(\mathcal{P})}\) reduces to \(\sqrt{\lambda_M}\). Rayleigh–Ritz for \(\lambda_{\min}(\mathcal{P})\) is not required.
+[^stein-floor]: In the formalized Lean kernel, the lower eigenvalue bound \(\lambda_{\min}(\mathcal{P})\ge 1\) from the Stein base term \(\mathcal{P}\succeq I\) is used directly, so \(\|z\|^2\le\mathcal{V}(z)\) and the comparison factor \(\sqrt{\lambda_M/\lambda_{\min}(\mathcal{P})}\) reduces to \(\sqrt{\lambda_M}\). Rayleigh–Ritz for \(\lambda_{\min}(\mathcal{P})\) [@horn2013] is not required.
 
 ---
 
 ## 11. Lean 4
 
-The formalization is [`lean/`](lean/). It does not import RRT.
+The formalization is [`lean/`](lean/). It does not import RRT. The development is in Lean 4 [@demoura2021lean4] against Mathlib [@mathlib2020].
 
 ```bash
 ./scripts/verify.sh
@@ -353,7 +359,7 @@ Supporting lemmas for Theorem 5 include `quadratic_margin_half` (scalar polynomi
 
 A two-vertex, one-edge path (`UniversalStability.Examples.TwoNodeExample`) inhabits the hypotheses of Theorem 5 at \(c=0\) (force balance reduces to \(V'(w^\star)=0\)). The unique positive root is admissible; \(w^\star=1\) is *not* a root, since \(V'(1)=-6\). Instantiating `theorem5_local_invariance` produces an \(r_0>0\), so the hypotheses do not imply `False`.
 
-Incomplete leftovers (finite-dimensional mountain pass; Hessian \(\Rightarrow\) `IsLocalMin`) live in `USIncomplete` and are not cited as discharging any statement above.
+Incomplete leftovers (finite-dimensional mountain pass [@ambrosetti1973]; Hessian \(\Rightarrow\) `IsLocalMin`) live in `USIncomplete` and are not cited as discharging any statement above.
 
 See [`lean/README.md`](lean/README.md) for pins and module layout.
 
