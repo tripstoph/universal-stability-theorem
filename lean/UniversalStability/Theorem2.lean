@@ -13,6 +13,7 @@ At force balance, `ℋ ≽ diag(h(w)) ≽ (18 - 9 · 2⁻¹/³) I` as quadratic 
 -/
 
 set_option autoImplicit false
+set_option linter.unusedSectionVars false
 
 noncomputable section
 

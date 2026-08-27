@@ -16,6 +16,7 @@ is an orthogonal projector, and `Bᵀ M_w⁻¹ B = W⁻¹ᐟ² Π W⁻¹ᐟ² �
 -/
 
 set_option autoImplicit false
+set_option linter.unusedSectionVars false
 
 noncomputable section
 
@@ -192,9 +193,9 @@ theorem B_eq_scaled_unscale (B : Matrix V E ℝ) (w : E → ℝ)
     by_cases hij : i = j
     · subst hij
       have hs : Real.sqrt (w i) ≠ 0 := ne_of_gt (Real.sqrt_pos.mpr (hw i))
-      simp [diagonal, one_apply]
+      simp [diagonal]
       exact mul_inv_cancel₀ hs
-    · simp [hij, diagonal, one_apply]
+    · simp [hij, diagonal]
   have hB : scaledInc B w * diagInvSqrt w = B := by
     unfold scaledInc
     rw [Matrix.mul_assoc, hDI, Matrix.mul_one]

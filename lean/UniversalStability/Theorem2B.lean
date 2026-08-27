@@ -21,6 +21,7 @@ pass is used.
 -/
 
 set_option autoImplicit false
+set_option linter.unusedSectionVars false
 
 noncomputable section
 

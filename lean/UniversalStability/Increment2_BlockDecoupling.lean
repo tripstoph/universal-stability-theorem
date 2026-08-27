@@ -66,17 +66,17 @@ theorem leapfrogLin_conj (γ ΔT : ℝ) (H Q : Matrix E E ℝ) (hQ : Qᵀ * Q = 
     rw [leapfrogLin]
     convert fromBlocks_multiply Qᵀ (0 : Matrix E E ℝ) (0 : Matrix E E ℝ) Qᵀ
         (1 : Matrix E E ℝ) (ΔT • (1 : Matrix E E ℝ)) ((-ΔT) • H) D using 1
-    simp [zero_mul, mul_zero, add_zero, zero_add, Matrix.mul_smul, mul_one]
+    simp [zero_mul, add_zero, zero_add, mul_one]
   have hSJS :
       fromBlocks Qᵀ (ΔT • Qᵀ) ((-ΔT) • (Qᵀ * H)) (Qᵀ * D) * fromBlocks Q 0 0 Q =
         fromBlocks (Qᵀ * Q) (ΔT • (Qᵀ * Q)) ((-ΔT) • (Qᵀ * H * Q))
           (Qᵀ * D * Q) := by
     convert fromBlocks_multiply Qᵀ (ΔT • Qᵀ) ((-ΔT) • (Qᵀ * H)) (Qᵀ * D)
         Q (0 : Matrix E E ℝ) (0 : Matrix E E ℝ) Q using 1
-    simp [mul_zero, zero_mul, add_zero, zero_add, Matrix.smul_mul, Matrix.mul_assoc]
+    simp [mul_zero, add_zero, zero_add, Matrix.mul_assoc]
   have hD :
       Qᵀ * D * Q = (1 - γ * ΔT) • (1 : Matrix E E ℝ) - ΔT ^ 2 • (Qᵀ * H * Q) := by
-    simp [D, sub_mul, mul_sub, Matrix.smul_mul, Matrix.mul_smul, hQ, Matrix.mul_assoc]
+    simp [D, sub_mul, mul_sub, hQ, Matrix.mul_assoc]
   rw [hST, hSJ, leapfrogChangeOfBasis, hSJS, hQ, hD, leapfrogLin]
 
 theorem modeBlock_charpoly (γ ΔT eig : ℝ) :

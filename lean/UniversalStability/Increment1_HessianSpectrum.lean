@@ -17,6 +17,7 @@ The algebraic Hessian is therefore Hermitian. Eigenvalues lie in
 -/
 
 set_option autoImplicit false
+set_option linter.unusedSectionVars false
 
 noncomputable section
 

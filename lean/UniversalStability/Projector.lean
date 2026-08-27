@@ -10,6 +10,7 @@ If `Pᵀ = P` and `P * P = P`, then `0 ≼ P ≼ I` as quadratic forms:
 -/
 
 set_option autoImplicit false
+set_option linter.unusedSectionVars false
 
 namespace UniversalStability
 
@@ -51,9 +52,9 @@ theorem dotProduct_mulVec_eq_of_projector (P : Matrix n n ℝ)
       dotProduct (P.mulVec x) x =
         dotProduct (P.mulVec x) (P.mulVec x) +
           dotProduct (P.mulVec x) (x - P.mulVec x) := by
-    have : x = P.mulVec x + (x - P.mulVec x) := by abel
+    have : x = P.mulVec x + (x - P.mulVec x) := by abel_nf
     rw [this, dotProduct_add]
-    abel
+    abel_nf
   rw [dotProduct_comm, hsplit, projector_kernel_orthogonal P hP, add_zero]
 
 theorem projector_remainder_sq (P : Matrix n n ℝ)

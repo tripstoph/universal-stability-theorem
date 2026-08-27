@@ -14,6 +14,7 @@ and existence of the Stein series when `ρ < 1`.
 
 set_option autoImplicit false
 set_option linter.unusedSectionVars false
+set_option linter.unnecessarySimpa false
 
 noncomputable section
 
@@ -97,7 +98,7 @@ theorem ofRealMat_sub {m n : Type*} (A B : Matrix m n ℝ) :
 theorem ofRealMat_mulVec (A : Matrix n n ℝ) (x : n → ℝ) :
     (ofRealMat A).mulVec (fun i => (x i : ℂ)) = fun i => (A.mulVec x i : ℂ) := by
   ext i
-  simp [ofRealMat, mulVec, dotProduct, Matrix.map_apply, Complex.ofReal_mul, map_sum]
+  simp [ofRealMat, mulVec, dotProduct, Matrix.map_apply, Complex.ofReal_mul]
 
 /-- Gelfand decay: `ρ(A) < r` yields `‖A^k‖ ≤ C r^k`. -/
 theorem exists_gelfand_pow_bound (A : Matrix n n ℂ) {r : ℝ} (hr0 : 0 < r)
@@ -193,7 +194,7 @@ def steinQuadLM (x : n → ℝ) : Matrix n n ℝ →ₗ[ℝ] ℝ where
   map_add' A B := by
     simp [add_mulVec, dotProduct_add]
   map_smul' c A := by
-    simp [smul_mulVec, smul_dotProduct]
+    simp [smul_mulVec]
 
 def steinQuadCLM (x : n → ℝ) : Matrix n n ℝ →L[ℝ] ℝ :=
   LinearMap.toContinuousLinearMap (steinQuadLM x)
@@ -214,7 +215,7 @@ def mulSandwichLM (A : Matrix n n ℝ) : Matrix n n ℝ →ₗ[ℝ] Matrix n n �
   map_add' X Y := by
     simp [mul_add, add_mul]
   map_smul' c X := by
-    simp [Matrix.mul_smul, Matrix.smul_mul]
+    simp
 
 def mulSandwichCLM (A : Matrix n n ℝ) : Matrix n n ℝ →L[ℝ] Matrix n n ℝ :=
   LinearMap.toContinuousLinearMap (mulSandwichLM A)
