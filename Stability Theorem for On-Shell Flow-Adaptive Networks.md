@@ -6,6 +6,8 @@ reference-section-title: References
 
 # Stability Theorem for On-Shell Flow-Adaptive Networks
 
+**Abstract.** A flow-adaptive network is a finite connected graph whose edge weights evolve under a constitutive restoring force coupled to on-shell Kirchhoff flow. The motivating setting is a discrete simulation whose interaction structure is a single graph (agents, resources, locations): without a stability result, timestepping can drive weights to the boundary of the positive orthant or into oscillation. This paper proves that the associated energy \(\Phi\) is coercive on \(\Omega=\mathbb{R}_{>0}^E\) and has a unique critical point \(w^\star\); that the damped leapfrog map linearised at \((w^\star,0)\) is Schur-stable for an explicit step-size bound; and that a Lyapunov ellipsoid about that equilibrium is forward-invariant, with exponential Euclidean contraction of the state inside it. The argument is machine-checked in Lean 4 / Mathlib (`v4.28.0`), with a `sorry`-free kernel through Theorem 5.
+
 The Green map is \(M_w^{-1}\) with shifted Laplacian \(M_w=L_w+J/|V|\), which on \(\mathbf{1}^\perp\) agrees with \(L_w^+\). There is no matrix Moore–Penrose \(^+\) in Mathlib 4.28 [@penrose1955].
 
 **Kernel** (`lake build UniversalStability`, Lean / Mathlib 4.28.0, **no `sorry`**): Definitions through Theorem 5, including Hessian spectral decomposition, modal Jury stability, Stein series \(\mathcal{P}\succeq I\), \(C^2\) Taylor bound on \(F_c\), quadratic margin estimation, and the full discrete nonlinear leapfrog contraction with a forward-invariant ellipsoidal basin of attraction (`theorem5_local_invariance`).
