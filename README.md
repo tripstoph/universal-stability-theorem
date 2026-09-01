@@ -1,4 +1,4 @@
-# universal-stability-theorem
+# Stability Theorem for On-Shell Flow-Adaptive Networks
 
 Lean 4 / Mathlib 4.28 formalization of the
 [Stability Theorem for On-Shell Flow-Adaptive Networks](Stability%20Theorem%20for%20On-Shell%20Flow-Adaptive%20Networks.md)
